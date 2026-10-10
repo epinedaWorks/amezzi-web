@@ -48,8 +48,13 @@ export const CURSOS = [
   {
     nombre: "Python",
     descripcion:
-      "Desde fundamentos hasta automatización de tareas, análisis de datos con pandas y primeros pasos en machine learning.",
-    temas: ["Fundamentos y buenas prácticas", "Automatización de procesos", "Análisis de datos", "Introducción a IA"],
+      "Desde fundamentos hasta análisis de datos, dashboards y modelos de IA con los datos de su empresa.",
+    temas: [
+      "Fundamentos y automatización de procesos",
+      "Interpretación de datos y dashboards",
+      "Modelos de IA con datos propios",
+      "Colab, Jupyter, Databricks, Marimo y GitLab",
+    ],
   },
   {
     nombre: "Amazon Web Services",
@@ -61,7 +66,7 @@ export const CURSOS = [
     nombre: "Power BI",
     descripcion:
       "Del dato crudo al tablero ejecutivo: modelado, DAX y visualizaciones que apoyan la toma de decisiones.",
-    temas: ["Conexión y limpieza de datos", "Modelado y DAX", "Tableros e indicadores", "Publicación y seguridad"],
+    temas: ["Conexión y limpieza de datos", "Modelado y DAX", "Tableros por departamento", "Publicación y seguridad"],
   },
   {
     nombre: "Office 365 y Excel empresarial",
@@ -72,6 +77,83 @@ export const CURSOS = [
       "Power Query y automatización en Excel",
       "Teams y SharePoint",
       "Power Automate",
+    ],
+  },
+];
+
+export type Especialidad = {
+  id: string;
+  sello: string;
+  nombre: string;
+  lema: string;
+  texto: string;
+  servicios: { titulo: string; texto: string }[];
+  herramientas?: string[];
+};
+
+export const ESPECIALIDADES: Especialidad[] = [
+  {
+    id: "python",
+    sello: "Py",
+    nombre: "Python",
+    lema: "Datos e inteligencia artificial",
+    texto: "Convertimos los datos de su empresa en conocimiento, indicadores y modelos que trabajan para usted.",
+    servicios: [
+      {
+        titulo: "Modelos de IA con sus propios datos",
+        texto: "Entrenados con la información de su organización, no con modelos genéricos.",
+      },
+      {
+        titulo: "Interpretación de datos",
+        texto: "Análisis exploratorio y estadístico para encontrar patrones y responder preguntas de negocio.",
+      },
+      {
+        titulo: "Dashboards e informes",
+        texto: "Tableros interactivos y reportes automatizados que se actualizan solos.",
+      },
+      {
+        titulo: "Entornos de trabajo modernos",
+        texto: "Capacitación y configuración de las herramientas con las que su equipo programa y colabora.",
+      },
+    ],
+    herramientas: ["Google Colab", "Jupyter", "GitLab", "Databricks", "Marimo", "Pluto.jl"],
+  },
+  {
+    id: "aws",
+    sello: "AWS",
+    nombre: "Amazon Web Services",
+    lema: "Nube, infraestructura y continuidad",
+    texto: "Llevamos sus sistemas a la nube con orden, seguridad y costos bajo control, y le acompañamos después.",
+    servicios: [
+      { titulo: "Migración a la nube", texto: "Planificación y traslado de servidores y aplicaciones a AWS." },
+      { titulo: "Infraestructura como código", texto: "Entornos reproducibles y versionados con CloudFormation o Terraform." },
+      { titulo: "Migración de bases de datos", texto: "Traslado de motores y datos con el mínimo tiempo fuera de servicio." },
+      { titulo: "Actualización de sistemas operativos", texto: "Migración a versiones recientes y con soporte vigente." },
+      { titulo: "Plan de recuperación ante desastres", texto: "Respaldos, réplicas y procedimientos (DRP) probados." },
+      { titulo: "Revisión de facturación", texto: "Análisis del gasto y recomendaciones concretas para reducirlo." },
+      { titulo: "IA con servicios de AWS", texto: "Visión, lenguaje y modelos generativos integrados a sus procesos." },
+      { titulo: "Soporte técnico y capacitación", texto: "Acompañamiento a su equipo en la operación diaria de la nube." },
+    ],
+  },
+  {
+    id: "power-bi",
+    sello: "BI",
+    nombre: "Power BI",
+    lema: "Indicadores para decidir",
+    texto: "Cada área con la información que necesita, confiable y actualizada.",
+    servicios: [
+      {
+        titulo: "Tableros a la medida por departamento",
+        texto: "Finanzas, ventas, operaciones o recursos humanos, cada uno con sus propios indicadores.",
+      },
+      {
+        titulo: "Configuración e implementación",
+        texto: "Conexión a fuentes de datos, actualización programada, áreas de trabajo y permisos por usuario.",
+      },
+      {
+        titulo: "Capacitación en la herramienta",
+        texto: "Para que su equipo construya, mantenga y aproveche sus propios reportes.",
+      },
     ],
   },
 ];
@@ -89,9 +171,10 @@ export const CONSULTORIA = [
       "Diseño de arquitecturas seguras y escalables, migración de cargas a la nube, revisión de seguridad y optimización de costos.",
     puntos: [
       "Diagnóstico de la infraestructura actual",
-      "Diseño de arquitectura y redes (VPC, IAM, cifrado)",
-      "Migración y puesta en producción",
-      "Monitoreo, respaldos y control de costos",
+      "Infraestructura como código",
+      "Migración a la nube, de bases de datos y de sistemas operativos",
+      "Plan de recuperación ante desastres (DRP)",
+      "Revisión de facturación y control de costos",
     ],
   },
   {

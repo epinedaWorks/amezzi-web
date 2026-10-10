@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Especialidades from "@/components/Especialidades";
 import Icono from "@/components/Icono";
 import { Etiqueta, LlamadoFinal, Titulo } from "@/components/Bloques";
 import { LINEAS, PROCESO, SOLUCIONES } from "@/lib/contenido";
@@ -98,6 +99,8 @@ export default function Inicio() {
           </div>
         </div>
       </section>
+
+      <Especialidades />
 
       {/* Soluciones destacadas */}
       <section className="reticula bg-marca text-white">
