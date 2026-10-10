@@ -14,11 +14,11 @@ export default function Inicio() {
           <div className="lg:order-2">
             <Etiqueta claro>Tecnología para empresas</Etiqueta>
             <h1 className="mt-6 font-serif text-4xl leading-[1.12] font-semibold sm:text-5xl xl:text-[3.4rem]">
-              Formamos equipos, diseñamos infraestructura y construimos el software que su empresa necesita.
+              Tecnología que resuelve los problemas reales de su empresa.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
-              Capacitación especializada, consultoría en la nube e inteligencia artificial, desarrollo a la medida y
-              soluciones listas para implementar.
+              Capacitamos a su equipo con enfoque en sus propios retos tecnológicos, evaluamos sus sistemas y le
+              asesoramos con las mejores opciones, e implementamos soluciones propias o desarrolladas a la medida.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link
