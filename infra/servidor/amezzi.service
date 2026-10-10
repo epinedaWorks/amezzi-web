@@ -1,0 +1,15 @@
+[Unit]
+Description=Amezzi Tech - sitio web (Next.js)
+Requires=amezzi-entorno.service
+After=amezzi-entorno.service
+
+[Service]
+User=amezzi
+WorkingDirectory=/opt/amezzi
+EnvironmentFile=/etc/amezzi/amezzi.env
+ExecStart=/usr/local/bin/node /opt/amezzi/node_modules/next/dist/bin/next start -H 127.0.0.1 -p 3000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

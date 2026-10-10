@@ -1,0 +1,13 @@
+# HTTPS automático para el dominio de /etc/amezzi/config (AMEZZI_DOMINIO).
+{$AMEZZI_DOMINIO} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	reverse_proxy 127.0.0.1:3000
+}
+
+www.{$AMEZZI_DOMINIO} {
+	redir https://{$AMEZZI_DOMINIO}{uri} permanent
+}

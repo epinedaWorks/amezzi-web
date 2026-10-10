@@ -1,0 +1,95 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Amezzi Tech - sitio web (EC2 + Caddy con HTTPS automatico) que se publica desde GitHub.
+
+Parameters:
+  Dominio:
+    Type: String
+    Default: amezzi.tech
+    Description: Dominio publico del sitio (registro A apuntando a la IP elastica). www se redirige a este.
+  Repositorio:
+    Type: String
+    Default: https://github.com/epinedaWorks/amezzi-web.git
+  TipoInstancia:
+    Type: String
+    Default: t4g.micro
+  Imagen:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64
+
+Resources:
+  GrupoSeguridad:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Amezzi web - solo HTTP y HTTPS (la administracion es por SSM, sin SSH)
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0 }
+        - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0 }
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIpv6: "::/0" }
+        - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIpv6: "::/0" }
+
+  Rol:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: { Service: ec2.amazonaws.com }
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - PolicyName: amezzi-web
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [ssm:GetParameter]
+                Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/amezzi-web/*"
+
+  PerfilInstancia:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles: [!Ref Rol]
+
+  Servidor:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref Imagen
+      InstanceType: !Ref TipoInstancia
+      IamInstanceProfile: !Ref PerfilInstancia
+      SecurityGroupIds: [!GetAtt GrupoSeguridad.GroupId]
+      MetadataOptions: { HttpTokens: required, HttpEndpoint: enabled }
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: { VolumeSize: 20, VolumeType: gp3, Encrypted: true }
+      Tags:
+        - { Key: Name, Value: amezzi-web }
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -euxo pipefail
+          dnf install -y git
+          mkdir -p /etc/amezzi
+          cat > /etc/amezzi/config <<CONFIG
+          AMEZZI_DOMINIO=${Dominio}
+          AMEZZI_AWS_REGION=${AWS::Region}
+          CONFIG
+          git clone ${Repositorio} /opt/amezzi
+          bash /opt/amezzi/infra/servidor/instalar.sh
+
+  IpElastica:
+    Type: AWS::EC2::EIP
+    Properties:
+      InstanceId: !Ref Servidor
+      Tags:
+        - { Key: Name, Value: amezzi-web }
+
+Outputs:
+  IP:
+    Description: Cree registros A de amezzi.tech y www.amezzi.tech apuntando a esta IP.
+    Value: !Ref IpElastica
+  Instancia:
+    Value: !Ref Servidor
+  URL:
+    Value: !Sub "https://${Dominio}"
