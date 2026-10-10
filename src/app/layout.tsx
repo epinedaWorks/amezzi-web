@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s · Amezzi Tech",
   },
   description:
-    "Capacitaciones empresariales en Python, AWS, Power BI y Office 365; consultoría en infraestructura AWS e inteligencia artificial; desarrollo de software a la medida y soluciones de asistencia QR y reconocimiento facial.",
+    "Capacitaciones empresariales en Python, AWS, Power BI, Office 365 y Excel empresarial; consultoría en infraestructura AWS e inteligencia artificial; desarrollo de software a la medida y soluciones de asistencia QR y reconocimiento facial.",
   openGraph: {
     title: "Amezzi Tech",
     description: "Capacitación, consultoría y software para empresas.",

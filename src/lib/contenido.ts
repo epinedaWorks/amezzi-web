@@ -15,7 +15,7 @@ export const LINEAS: Linea[] = [
     numero: "01",
     nombre: "Capacitaciones empresariales",
     resumen:
-      "Programas prácticos en Python, AWS, Power BI y Office 365, diseñados según el nivel y los objetivos de cada equipo.",
+      "Programas prácticos en Python, AWS, Power BI, Office 365 y Excel empresarial, diseñados según el nivel y los objetivos de cada equipo.",
     icono: "capacitacion",
   },
   {
@@ -64,10 +64,15 @@ export const CURSOS = [
     temas: ["Conexión y limpieza de datos", "Modelado y DAX", "Tableros e indicadores", "Publicación y seguridad"],
   },
   {
-    nombre: "Office 365",
+    nombre: "Office 365 y Excel empresarial",
     descripcion:
-      "Productividad y colaboración con Excel, Teams, SharePoint y Power Automate para el trabajo diario.",
-    temas: ["Excel aplicado a negocios", "Teams y SharePoint", "Power Automate", "Colaboración y seguridad"],
+      "Excel aplicado a la gestión del negocio, junto con Teams, SharePoint y Power Automate para la productividad y la colaboración diaria.",
+    temas: [
+      "Excel empresarial: fórmulas, tablas dinámicas y reportes",
+      "Power Query y automatización en Excel",
+      "Teams y SharePoint",
+      "Power Automate",
+    ],
   },
 ];
 

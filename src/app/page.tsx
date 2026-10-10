@@ -3,15 +3,15 @@ import Icono from "@/components/Icono";
 import { Etiqueta, LlamadoFinal, Titulo } from "@/components/Bloques";
 import { LINEAS, PROCESO, SOLUCIONES } from "@/lib/contenido";
 
-const TECNOLOGIAS = ["Python", "Amazon Web Services", "Power BI", "Office 365", "Visión por computadora", "Machine learning"];
+const TECNOLOGIAS = ["Python", "Amazon Web Services", "Power BI", "Office 365", "Excel empresarial", "Visión por computadora", "Machine learning"];
 
 export default function Inicio() {
   return (
     <>
       {/* Portada */}
       <section className="reticula relative overflow-hidden bg-marca text-white">
-        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.25fr_1fr] lg:items-center">
-          <div>
+        <div className="mx-auto grid max-w-6xl gap-12 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1fr_1.25fr] lg:items-center">
+          <div className="lg:order-2">
             <Etiqueta claro>Tecnología para empresas</Etiqueta>
             <h1 className="mt-6 font-serif text-4xl leading-[1.12] font-semibold sm:text-5xl xl:text-[3.4rem]">
               Formamos equipos, diseñamos infraestructura y construimos el software que su empresa necesita.
@@ -37,7 +37,7 @@ export default function Inicio() {
             </div>
           </div>
 
-          <div className="hidden rounded-lg border border-white/15 bg-white/[0.04] p-7 lg:block">
+          <div className="hidden rounded-lg border border-white/15 bg-white/[0.04] p-7 lg:order-1 lg:block">
             <p className="text-xs font-semibold tracking-[0.16em] text-acento-claro uppercase">Áreas de trabajo</p>
             <ul className="mt-5 divide-y divide-white/10">
               {LINEAS.map((l) => (

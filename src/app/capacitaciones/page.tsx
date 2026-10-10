@@ -4,7 +4,7 @@ import { CURSOS, MODALIDADES } from "@/lib/contenido";
 
 export const metadata: Metadata = {
   title: "Capacitaciones empresariales",
-  description: "Capacitaciones para empresas en Python, AWS, Power BI y Office 365, presenciales o virtuales.",
+  description: "Capacitaciones para empresas en Python, AWS, Power BI, Office 365 y Excel empresarial, presenciales o virtuales.",
 };
 
 export default function Capacitaciones() {
@@ -13,7 +13,7 @@ export default function Capacitaciones() {
       <EncabezadoPagina
         etiqueta="01 · Capacitaciones empresariales"
         titulo="Equipos que dominan las herramientas con las que trabajan"
-        texto="Programas prácticos en Python, AWS, Power BI y Office 365, adaptados al nivel de cada grupo y a los casos reales de su empresa."
+        texto="Programas prácticos en Python, AWS, Power BI, Office 365 y Excel empresarial, adaptados al nivel de cada grupo y a los casos reales de su empresa."
       />
 
       <section className="bg-white">
