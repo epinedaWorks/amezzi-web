@@ -6,6 +6,7 @@ type Nombre =
   | "soluciones"
   | "qr"
   | "rostro"
+  | "minuta"
   | "check"
   | "flecha";
 
@@ -50,6 +51,13 @@ const TRAZOS: Record<Nombre, React.ReactNode> = {
       <path d="M3.5 8 V5 A1.5 1.5 0 0 1 5 3.5 H8 M16 3.5 H19 A1.5 1.5 0 0 1 20.5 5 V8 M20.5 16 V19 A1.5 1.5 0 0 1 19 20.5 H16 M8 20.5 H5 A1.5 1.5 0 0 1 3.5 19 V16" />
       <circle cx="12" cy="10.5" r="3" />
       <path d="M7.5 17.5 C8.5 15.5 10 14.8 12 14.8 C14 14.8 15.5 15.5 16.5 17.5" />
+    </>
+  ),
+  minuta: (
+    <>
+      <path d="M6 3.5 H14.5 L18.5 7.5 V20.5 H6 Z" />
+      <path d="M14.5 3.5 V7.5 H18.5" />
+      <path d="M9 11 V14 M11.2 9.8 V15.2 M13.4 11.5 V13.5 M15.6 10.5 V14.5 M9 18 H15.5" />
     </>
   ),
   check: <path d="M5 12.5 L10 17 L19 7.5" />,

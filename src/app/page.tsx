@@ -110,16 +110,16 @@ export default function Inicio() {
           <p className="mt-4 max-w-2xl text-white/70">
             Productos que implementamos y adaptamos a cada empresa, con acompañamiento desde la instalación.
           </p>
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            {SOLUCIONES.map((s, i) => (
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {SOLUCIONES.map((s) => (
               <div key={s.id} className="flex flex-col rounded-lg border border-white/15 bg-white/[0.04] p-8">
                 <span className="flex h-12 w-12 items-center justify-center rounded-md bg-acento text-white">
-                  <Icono nombre={i === 0 ? "qr" : "rostro"} />
+                  <Icono nombre={s.icono} />
                 </span>
                 <h3 className="mt-6 text-xl font-semibold">{s.nombre}</h3>
                 <p className="mt-3 leading-relaxed text-white/70">{s.descripcion}</p>
                 <ul className="mt-6 flex-1 space-y-2">
-                  {s.casos.map((c) => (
+                  {s.casos.slice(0, 4).map((c) => (
                     <li key={c.titulo} className="flex gap-3 text-sm text-white/85">
                       <Icono nombre="check" className="h-5 w-5 shrink-0 text-acento-claro" />
                       {c.titulo}

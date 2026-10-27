@@ -39,7 +39,7 @@ export const LINEAS: Linea[] = [
     numero: "04",
     nombre: "Soluciones de software",
     resumen:
-      "Herramientas listas para implementar: control de asistencia con QR y reconocimiento facial aplicado a la empresa.",
+      "Herramientas listas para implementar: asistencia con QR, reconocimiento facial y Reu-X, minutas de reuniones con inteligencia artificial.",
     icono: "soluciones",
   },
 ];
@@ -218,14 +218,20 @@ export const PROCESO = [
 
 export type Solucion = {
   id: string;
+  icono: "qr" | "rostro" | "minuta";
   nombre: string;
+  lema?: string;
   descripcion: string;
   casos: { titulo: string; texto: string }[];
+  idealPara?: string[];
+  nota?: string;
+  enlace?: { href: string; texto: string };
 };
 
 export const SOLUCIONES: Solucion[] = [
   {
     id: "asistencia-qr",
+    icono: "qr",
     nombre: "Registro y conteo de asistencia con QR",
     descripcion:
       "Cada participante o colaborador recibe un código QR único. Al llegar, se escanea desde un teléfono o tableta y la asistencia queda registrada con fecha y hora, sin listas en papel ni captura manual.",
@@ -237,6 +243,7 @@ export const SOLUCIONES: Solucion[] = [
   },
   {
     id: "reconocimiento-facial",
+    icono: "rostro",
     nombre: "Reconocimiento facial empresarial",
     descripcion:
       "Visión por computadora aplicada a la operación: identifica personas, verifica condiciones y analiza contenido, con resultados explicables que el equipo puede auditar.",
@@ -257,5 +264,50 @@ export const SOLUCIONES: Solucion[] = [
           "Analiza imágenes que se suben a una plataforma, detecta contenido inapropiado e indica la categoría y el motivo de la alerta.",
       },
     ],
+    nota: "Se implementa con el consentimiento de las personas registradas y con políticas de resguardo de datos definidas junto a cada cliente.",
+  },
+  {
+    id: "reux",
+    icono: "minuta",
+    nombre: "Reu-X: minutas inteligentes de reuniones",
+    lema: "De la grabación a la minuta en minutos",
+    descripcion:
+      "Suba el audio, el video o la transcripción de una reunión y Reu-X entrega una minuta formal lista para compartir, con acuerdos, tareas y responsables. Su equipo deja de tomar notas y de dedicar horas a redactar, y ningún compromiso se pierde.",
+    casos: [
+      {
+        titulo: "Minuta formal completa",
+        texto:
+          "Participantes, objetivo, resumen ejecutivo, agenda, desarrollo por temas, acuerdos, pendientes y próxima reunión.",
+      },
+      {
+        titulo: "Tareas con responsable y fecha",
+        texto: "Cada compromiso queda asignado y visible, listo para darle seguimiento.",
+      },
+      {
+        titulo: "Transcripción con hablantes",
+        texto: "Reconoce español e inglés e identifica quién habló, en grabaciones de hasta 4 horas.",
+      },
+      {
+        titulo: "Mapas mentales e infografías",
+        texto: "Visuales editables con los temas clave, ideales para presentar resultados a la dirección.",
+      },
+      {
+        titulo: "Listo para compartir",
+        texto: "Exporta a Word con el diagrama incluido, a PDF o a Markdown con un clic.",
+      },
+      {
+        titulo: "Control por usuario",
+        texto: "Perfiles, límites de uso y bitácora de actividad para administrar el servicio en su empresa.",
+      },
+    ],
+    idealPara: [
+      "Juntas directivas",
+      "Comités y consejos",
+      "Reuniones de proyecto",
+      "Sesiones con clientes",
+      "Capacitaciones y talleres",
+    ],
+    nota: "Opera sobre infraestructura de AWS con acceso protegido por usuario; los archivos de audio y video se eliminan automáticamente a los 7 días.",
+    enlace: { href: "https://reux.amezzi.tech", texto: "Ingresar a Reu-X" },
   },
 ];
