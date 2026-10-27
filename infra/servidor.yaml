@@ -12,9 +12,13 @@ Parameters:
   TipoInstancia:
     Type: String
     Default: t4g.micro
+  # AMI fija (Amazon Linux 2023 ARM). No se toma "la más reciente" desde SSM porque
+  # cada vez que AWS publica una nueva, cualquier actualización del stack
+  # reemplazaría el servidor. Para un servidor nuevo, consultar la última con:
+  # aws ssm get-parameter --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64
   Imagen:
-    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
-    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64
+    Type: AWS::EC2::Image::Id
+    Default: ami-0cbfd468bb98fa410
 
 Resources:
   GrupoSeguridad:
@@ -46,6 +50,13 @@ Resources:
               - Effect: Allow
                 Action: [ssm:GetParameter]
                 Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/amezzi-web/*"
+              # Correo del formulario por SES: solo desde no-reply@amezzi.tech.
+              - Effect: Allow
+                Action: [ses:SendEmail]
+                Resource: !Sub "arn:aws:ses:${AWS::Region}:${AWS::AccountId}:identity/*"
+                Condition:
+                  StringEquals:
+                    ses:FromAddress: no-reply@amezzi.tech
 
   PerfilInstancia:
     Type: AWS::IAM::InstanceProfile

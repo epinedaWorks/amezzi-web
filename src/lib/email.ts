@@ -1,4 +1,10 @@
-const API_KEY = process.env.RESEND_API_KEY;
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
+
+// Amazon SES con las credenciales del entorno: en el servidor, el rol de la
+// instancia (sin claves guardadas); en local, el perfil de ~/.aws (AWS_PROFILE).
+const REGION = process.env.AMEZZI_AWS_REGION || process.env.AWS_REGION || "us-west-1";
+const ses = new SESv2Client({ region: REGION });
+
 const FROM = process.env.EMAIL_FROM || "Amezzi Tech <no-reply@amezzi.tech>";
 const EQUIPO = (process.env.TEAM_EMAIL || "")
   .split(",")
@@ -38,40 +44,33 @@ type ResultadoEnvio = { ok: true } | { ok: false; motivo: string };
 
 const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-// Llamada directa a la API de Resend con reintento ante 429. Nunca lanza.
+// Envío con SES, con reintento si SES limita la velocidad. Nunca lanza.
 async function enviar(opts: { to: string[]; subject: string; html: string; replyTo?: string }): Promise<ResultadoEnvio> {
-  if (!API_KEY) {
-    console.warn("[email] RESEND_API_KEY no configurada — no se envían correos.");
-    return { ok: false, motivo: "no configurado" };
-  }
   for (let intento = 1; intento <= 3; intento++) {
     try {
-      const res = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${API_KEY}`, "Content-Type": "application/json; charset=utf-8" },
-        body: JSON.stringify({
-          from: FROM,
-          to: opts.to,
-          subject: opts.subject,
-          html: opts.html,
-          ...(opts.replyTo ? { reply_to: opts.replyTo } : {}),
-        }),
-      });
-      if (res.ok) return { ok: true };
-      const cuerpo = await res.text().catch(() => "");
-      if (res.status === 429 && intento < 3) {
+      await ses.send(
+        new SendEmailCommand({
+          FromEmailAddress: FROM,
+          Destination: { ToAddresses: opts.to },
+          ReplyToAddresses: opts.replyTo ? [opts.replyTo] : undefined,
+          Content: {
+            Simple: {
+              Subject: { Data: opts.subject, Charset: "UTF-8" },
+              Body: { Html: { Data: opts.html, Charset: "UTF-8" } },
+            },
+          },
+        })
+      );
+      return { ok: true };
+    } catch (err) {
+      const nombre = (err as { name?: string }).name ?? "";
+      const reintentable = nombre === "TooManyRequestsException" || nombre === "LimitExceededException" || !nombre;
+      if (reintentable && intento < 3) {
         await esperar(700 * intento);
         continue;
       }
-      console.error("[email] Resend respondió", res.status, cuerpo);
-      return { ok: false, motivo: `HTTP ${res.status}` };
-    } catch (err) {
-      if (intento < 3) {
-        await esperar(500 * intento);
-        continue;
-      }
-      console.error("[email] no se pudo enviar:", err);
-      return { ok: false, motivo: "error de red" };
+      console.error("[email] SES no pudo enviar:", nombre, (err as Error).message);
+      return { ok: false, motivo: nombre || "error de red" };
     }
   }
   return { ok: false, motivo: "desconocido" };

@@ -1,7 +1,8 @@
 #!/bin/bash
-# Arma /etc/amezzi/amezzi.env con la configuración del servidor y las credenciales
-# de correo guardadas en Parameter Store (/amezzi-web/*). Si un parámetro aún no
-# existe queda vacío: el sitio funciona igual, solo que el formulario no envía.
+# Arma /etc/amezzi/amezzi.env con la configuración del servidor y los correos del
+# equipo guardados en Parameter Store (/amezzi-web/team-email). El envío usa SES
+# con el rol de la instancia, así que no hay claves que guardar. Si el parámetro
+# aún no existe queda vacío: el sitio funciona igual, solo que el formulario no envía.
 set -euo pipefail
 # shellcheck disable=SC1091
 source /etc/amezzi/config
@@ -14,8 +15,6 @@ leer() {
 umask 077
 {
   cat /etc/amezzi/config
-  echo "RESEND_API_KEY=$(leer /amezzi-web/resend-api-key)"
-  echo "EMAIL_FROM=$(leer /amezzi-web/email-from)"
   echo "TEAM_EMAIL=$(leer /amezzi-web/team-email)"
   echo "NODE_ENV=production"
 } > /etc/amezzi/amezzi.env.tmp
